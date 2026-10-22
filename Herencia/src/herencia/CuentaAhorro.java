@@ -3,28 +3,40 @@ package herencia;
 import java.util.Calendar ;
 
 public class CuentaAhorro extends  CuentaBancaria {
-    private Calendar ultimaModif ;
-    private int retirosRealizados = 0 ;
-    private static final int Max_Retiros_=3 ;
-  public CuentaAhorro(int cuenta, String cliente) {
-    super(cuenta, cliente,  0.03 );
-    this.ultimaModif = Calendar.getInstance() ;
-    }  
-    public boolean status () {
-     Calendar FechaActual = Calendar.getInstance() ;
-     FechaActual.add(Calendar.MONTH ,-6) ;
-     return ultimaModif.after(FechaActual) ;
-     
+    private Calendar ultimoUso;
+   
+    public CuentaAhorro(int numero, String cliente, String moneda) {
+        super(numero, cliente, moneda, TipoCuenta.Ahorro);
+        ultimoUso = Calendar.getInstance();
     }
-     public void aplicarInterese () {
-         if(status ()) {
-             double interes = saldo*tasa ;
-             depositar(interes) ;
-           
-             
-         }
-         // retiro  verificar retiro comprobar cuantos retiros 
-     }
+    // si esta activa la cuenta
+     public boolean estaActiva() {
+        Calendar limite = Calendar.getInstance();
+        limite.add(Calendar.MONTH, -6);
+        return ultimoUso.after(limite);
+    }
+    @Override
+      
+       public void depositar(double monto) {
+        if (estaActiva() == false) {
+            throw new IllegalStateException("La cuenta de ahorro está inactiva");
+        }
+        super.depositar(monto);
+        ultimoUso = Calendar.getInstance();
+    }
+    
+
+     public boolean retirar(double monto) {
+        if (estaActiva() == false) {
+            throw new IllegalStateException("La cuenta de ahorro está inactiva");
+        }
+        boolean Retiro = super.retirar(monto);
+        if (Retiro) {
+            ultimoUso = Calendar.getInstance();
+        }
+        return Retiro;
+    }
+    
      }
 
 
