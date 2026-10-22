@@ -30,7 +30,7 @@ public class CuentaBancaria {
         this(numero, cliente, moneda);
         this.tipo = tipo;
     }
-     
+     // metodo depositar
      public void depositar(double monto) {
         if (monto <= 0) {
             
@@ -39,6 +39,7 @@ public class CuentaBancaria {
         saldo += monto;
         registrarMovimiento("Deposito " + monto + "  saldo: " + saldo);
     }
+     // metodo retirar
       public boolean retirar(double monto) {
         if (monto <= 0) {
             throw new IllegalArgumentException("El monto a retirar debe ser mayor que 0");
@@ -49,7 +50,8 @@ public class CuentaBancaria {
         saldo -= monto;
         registrarMovimiento(" Retiro " + monto + "  saldo: " + saldo);
         return true;
-    }
+    } 
+      // metodo registrar movimiento
        protected void registrarMovimiento(String movimiento) {
         try {
             if (cantidadMovimientos >= historial.length) {
@@ -61,31 +63,31 @@ public class CuentaBancaria {
             System.out.println("Anuncio: " + e.getMessage() + ", no se registró el movimiento");
         }
     }
+       public void reintegrar(double monto) {
+        saldo  += monto;
+        registrarMovimiento(" Devuelto +" + monto + " saldo: " + saldo);
+    }
+        public void registrarIntereses() {
+        saldo += saldo * tipo.tasa();
+    }
+         public void quienSoy() {
+        System.out.println("CuentaBancaria : clase base");
+    }
+      public void imprimirHistorial() {
+        for (int i = 0; i < cantidadMovimientos; i++) {
+            System.out.println(historial[i]);
+        }
+    }
+     @Override
+      public String toString() {
+        return "Cuenta #" + numero + " | " + cliente + " | Saldo: " + saldo + " " + moneda + " | Tipo: " + tipo + " | Apertura: " + apertura.getTime();
 
      
-     public void mostrarHistorial () {
-         System.out.println("====== HISTORIAL DE " + cliente.toLowerCase()+ "=====");
-         for (String registro : historial )
-             System.out.println(registro);   
-     }
-      public double getSaldo()  {
-          return saldo ;
-      }     
-      public String toString() {
-         return String.format("Cuenta #%d | %s | $%.2f " , numero , cliente , saldo ) ;
-         
+     
+     
       }
-      public void transferencia (double monto , CuentaBancaria destino) {
-         if(this.retirar(monto)) { 
-           destino.depositar(monto)   ;
-      
-         
-      }
-         else {
-             System.out.println("Trnasferencia fallida");
-         }
-      }
-        
 }
+        
+
 
 
