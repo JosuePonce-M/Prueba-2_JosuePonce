@@ -2,7 +2,7 @@
 package herencia;
 import java.util.Calendar ;
 
-public class CuentaAhorro {
+public class CuentaAhorro extends  CuentaBancaria {
     private Calendar ultimaModif ;
     private int retirosRealizados = 0 ;
     private static final int Max_Retiros_=3 ;
@@ -27,4 +27,4 @@ public class CuentaAhorro {
      }
      }
 
-}
+
