@@ -20,7 +20,7 @@ public class CuentaAhorro extends  CuentaBancaria {
          if(status ()) {
              double interes = saldo*tasa ;
              depositar(interes) ;
-             historial.add("Interese aplicados :" + interes) ;
+           
              
          }
          // retiro  verificar retiro comprobar cuantos retiros 
